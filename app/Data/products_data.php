@@ -62,7 +62,7 @@ return [
         'name' => 'PAKET ARPENAZ QUECHUA 4.1 F&B',
         'price' => '550K / Night',
         'description' => 'Paket lengkap tenda tunnel Quechua 4.1 dengan ruang keluarga (vestibule) luas di depan. Material flysheet poliester berlapis PU 2000mm tahan cuaca.',
-        'images' => ['f&b.jpg',],
+        'images' => ['fb.jpg',],
         'specs' => [
             'Brand' => 'Quechua',
             'Tipe' => 'Tunnel / Family Tent',

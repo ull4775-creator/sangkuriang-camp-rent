@@ -13,6 +13,10 @@
     <style>
         :root { --primary: #4CAF50; --gold: #FFD54F; --dark: #0a0a0a; --glass-bg: rgba(20, 20, 20, 0.75); }
         * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        
+        /* PERBAIKAN UTAMA: Mencegah navbar menutupi judul saat scroll */
+        html { scroll-padding-top: 100px; }
+        
         body { font-family: 'Poppins', sans-serif; color: #fff; background: var(--dark); overflow-x: hidden; }
         
         .fixed-video-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -9999; pointer-events: none; overflow: hidden; background-color: #050505; background-image: url('/assets/images/logo.png'); background-size: cover; background-position: center; }
@@ -135,7 +139,7 @@
         <div class="nav-flex">
             <a href="#" class="logo"><i class="fas fa-mountain"></i> SANGKURIANG</a>
             <ul class="nav-menu" id="navMenu">
-                <!-- PERBAIKAN: Semua menu navbar menggunakan anchor link (#) agar berfungsi sebagai navigasi internal -->
+                <!-- SEMUA MENU NAVBAR MENGGUNAKAN ANCHOR LINK (#) -->
                 <li><a href="#home" class="active">Home</a></li>
                 <li><a href="#katalog">Katalog</a></li>
                 <li><a href="#keunggulan">Keunggulan</a></li>
@@ -151,7 +155,6 @@
             <h1 class="main-title">Sewa Tenda <br><span class="highlight">Family Camp</span></h1>
             <p class="hero-desc">Nikmati petualangan keluarga yang tak terlupakan dengan perlengkapan camping premium berkualitas tinggi.</p>
             <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
-                <!-- Tombol Hero juga mengarah ke section yang sesuai -->
                 <a href="#katalog" class="btn-glass"><i class="fas fa-list-ul"></i> Lihat Katalog</a>
                 <a href="#kontak" class="btn-glass" style="background:transparent;"><i class="fas fa-map-marker-alt"></i> Cek Lokasi</a>
             </div>
@@ -245,6 +248,7 @@
                 <p style="color:#aaa;">Klik tombol di bawah untuk langsung membuka navigasi Google Maps.</p>
             </div>
             
+            <!-- Wrapper Peta dengan Link Navigasi Eksternal -->
             <a href="https://maps.app.goo.gl/Pvixba29j8ADjDdo9" target="_blank" class="map-wrapper">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31735.58888888889!2d107.62!3d-6.79!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e688c0c0c0c0c0c%3A0x0!2zNsKwNDcnMDAuMCJTIDEwN8KwMzcnMDAuMCJF!5e0!3m2!1sid!2sid!4v1700000000000" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 <div class="map-click-overlay">
@@ -313,12 +317,24 @@
     <script>
         window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50));
         const hamburger = document.getElementById('hamburger'), navMenu = document.getElementById('navMenu');
-        hamburger.addEventListener('click', () => { hamburger.classList.toggle('active'); navMenu.classList.toggle('active'); });
+        
+        // PERBAIKAN LOGIKA HAMBURGER MOBILE
+        hamburger.addEventListener('click', () => { 
+            hamburger.classList.toggle('active'); 
+            navMenu.classList.toggle('active'); 
+        });
+
+        // Menutup menu mobile secara otomatis saat link diklik
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
         
         let currentSlide = 0, productImages = [];
         function openModal(product) {
             if (!product || typeof product !== 'object') return;
-            // Path modal juga menggunakan path absolut lengkap
             productImages = (Array.isArray(product.images) && product.images.length) ? product.images : ['/assets/images/placeholder.jpg'];
             currentSlide = 0; updateSlider();
             
