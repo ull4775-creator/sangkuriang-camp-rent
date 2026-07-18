@@ -193,7 +193,7 @@ return [
         'name' => 'Arpenaz 4.1 F&B Satuan',
         'price' => '275K / Malam',
         'description' => 'Sewa satuan tenda Arpenaz 4.1 dengan fitur kain sejuk pengurang panas matahari. Dilengkapi alas terpal basin khusus.',
-        'images' => ['f&b1.jpg', 'f&b.jpg'],
+        'images' => ['fb1.jpg', 'fb.jpg'],
         'specs' => [
             'Kapasitas' => '4 - 6 Orang',
             'Ruang Tidur' => '240 x 210 cm',
@@ -210,7 +210,7 @@ return [
         'name' => 'Arpenaz 4.0 Satuan',
         'price' => '150K / Tenda',
         'description' => 'Tenda family dome/tunnel kapasitas 4 orang dengan luas permukaan total 10,4 m². Ruang tamu duduk seluas 3,9 m².',
-        'images' => ['f&b1.jpg'], 
+        'images' => ['fb1.jpg'], 
         'specs' => [
             'Tipe' => 'Family Dome / Tunnel Tent',
             'Kapasitas' => '4 Orang',
@@ -227,7 +227,7 @@ return [
         'name' => 'Arpenaz 4.1 Satuan',
         'price' => '200K / Tenda',
         'description' => 'Tenda kapasitas 4-6 orang dengan ruang tamu berdiri seluas 5 m². Sudah termasuk alas terpal cekung untuk kenyamanan ekstra.',
-        'images' => ['f&b1.jpg' ],
+        'images' => ['fb1.jpg' ],
         'specs' => [
             'Kapasitas' => '4 - 6 Orang',
             'Ruang Tidur' => '240 x 210 cm',
@@ -243,7 +243,7 @@ return [
         'name' => 'Arpenaz 4.2 Satuan',
         'price' => '250K / Malam',
         'description' => 'Tenda kapasitas 4-6 orang dengan ruang santai stand-up seluas 3,5 m². Nyaman untuk berdiri dan beraktivitas di dalam tenda.',
-        'images' => ['f&b1.jpg'],
+        'images' => ['fb1.jpg'],
         'specs' => [
             'Kapasitas' => '4 - 6 Orang',
             'Ruang Tidur' => '140 x 210 cm',
