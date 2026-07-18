@@ -135,10 +135,10 @@
         <div class="nav-flex">
             <a href="#" class="logo"><i class="fas fa-mountain"></i> SANGKURIANG</a>
             <ul class="nav-menu" id="navMenu">
+                <!-- PERBAIKAN: Semua menu navbar menggunakan anchor link (#) agar berfungsi sebagai navigasi internal -->
                 <li><a href="#home" class="active">Home</a></li>
                 <li><a href="#katalog">Katalog</a></li>
                 <li><a href="#keunggulan">Keunggulan</a></li>
-                <!-- PERBAIKAN: Menu Lokasi di Navbar mengarah ke section #kontak -->
                 <li><a href="#kontak">Lokasi</a></li>
             </ul>
             <a href="https://wa.me/6281324481252" target="_blank" class="btn-nav"><i class="fab fa-whatsapp"></i> Hubungi Admin</a>
@@ -151,10 +151,8 @@
             <h1 class="main-title">Sewa Tenda <br><span class="highlight">Family Camp</span></h1>
             <p class="hero-desc">Nikmati petualangan keluarga yang tak terlupakan dengan perlengkapan camping premium berkualitas tinggi.</p>
             <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
-                <!-- PERBAIKAN: Tombol Lihat Katalog mengarah ke section #katalog -->
+                <!-- Tombol Hero juga mengarah ke section yang sesuai -->
                 <a href="#katalog" class="btn-glass"><i class="fas fa-list-ul"></i> Lihat Katalog</a>
-                
-                <!-- PERBAIKAN: Tombol Cek Lokasi mengarah ke section #kontak (bukan buka tab baru) -->
                 <a href="#kontak" class="btn-glass" style="background:transparent;"><i class="fas fa-map-marker-alt"></i> Cek Lokasi</a>
             </div>
         </div>
