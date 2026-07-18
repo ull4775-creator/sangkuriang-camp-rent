@@ -138,7 +138,8 @@
                 <li><a href="#home" class="active">Home</a></li>
                 <li><a href="#katalog">Katalog</a></li>
                 <li><a href="#keunggulan">Keunggulan</a></li>
-                <li><a href="https://maps.app.goo.gl/Pvixba29j8ADjDdo9" target="_blank">Lokasi</a></li>
+                <!-- PERBAIKAN: Menu Lokasi di Navbar mengarah ke section #kontak -->
+                <li><a href="#kontak">Lokasi</a></li>
             </ul>
             <a href="https://wa.me/6281324481252" target="_blank" class="btn-nav"><i class="fab fa-whatsapp"></i> Hubungi Admin</a>
             <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
@@ -150,8 +151,11 @@
             <h1 class="main-title">Sewa Tenda <br><span class="highlight">Family Camp</span></h1>
             <p class="hero-desc">Nikmati petualangan keluarga yang tak terlupakan dengan perlengkapan camping premium berkualitas tinggi.</p>
             <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
+                <!-- PERBAIKAN: Tombol Lihat Katalog mengarah ke section #katalog -->
                 <a href="#katalog" class="btn-glass"><i class="fas fa-list-ul"></i> Lihat Katalog</a>
-                <a href="https://maps.app.goo.gl/Pvixba29j8ADjDdo9" target="_blank" class="btn-glass" style="background:transparent;"><i class="fas fa-map-marker-alt"></i> Cek Lokasi</a>
+                
+                <!-- PERBAIKAN: Tombol Cek Lokasi mengarah ke section #kontak (bukan buka tab baru) -->
+                <a href="#kontak" class="btn-glass" style="background:transparent;"><i class="fas fa-map-marker-alt"></i> Cek Lokasi</a>
             </div>
         </div>
     </section>
@@ -360,4 +364,4 @@
         });
     </script>
 </body>
-</html>     
+</html>
