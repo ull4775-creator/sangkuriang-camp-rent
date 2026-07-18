@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Sangkuriang - Sewa Tenda Premium</title>
-    <!-- Favicon langsung dari root public -->
-    <link rel="icon" type="image/png" href="{{ asset('logo.png') }}">
+    <!-- Favicon dari folder assets/images -->
+    <link rel="icon" type="image/png" href="{{ asset('assets/images/logo.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
@@ -20,7 +20,7 @@
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: -9999; pointer-events: none; overflow: hidden;
             background-color: #050505;
-            background-image: url('{{ asset("logo.png") }}');
+            background-image: url('{{ asset("assets/images/logo.png") }}');
             background-size: cover;
             background-position: center;
         }
@@ -186,11 +186,11 @@
 
     <!-- VIDEO BACKGROUND DENGAN FALLBACK IMAGE GANDA (CSS + HTML) -->
     <div class="fixed-video-bg">
-        <!-- Fallback Image HTML (Path flat: langsung di root public) -->
-        <img src="{{ asset('logo.png') }}" alt="Background" style="width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0; z-index:-2;">
-        <!-- Video Background (Path flat: langsung di root public) -->
-        <video id="bgVideo" autoplay muted loop playsinline preload="auto" poster="{{ asset('logo.png') }}" style="position:relative; z-index:-1;">
-            <source src="{{ asset('bg.mp4') }}" type="video/mp4">
+        <!-- Fallback Image HTML (Path normal: assets/images/) -->
+        <img src="{{ asset('assets/images/logo.png') }}" alt="Background" style="width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0; z-index:-2;">
+        <!-- Video Background (Path normal: uploads/products/) -->
+        <video id="bgVideo" autoplay muted loop playsinline preload="auto" poster="{{ asset('assets/images/logo.png') }}" style="position:relative; z-index:-1;">
+            <source src="{{ asset('uploads/products/bg.mp4') }}" type="video/mp4">
         </video>
     </div>
     <div class="global-overlay"></div>
@@ -231,14 +231,14 @@
                 @foreach($products as $product)
                     @if(!is_array($product)) @continue @endif
                     @php 
-                        // PERBAIKAN PATH GAMBAR PRODUK: Langsung ambil dari root public (flat structure)
+                        // PERBAIKAN PATH GAMBAR PRODUK: Kembali ke struktur folder normal (uploads/products/)
                         // Menggunakan strtolower() untuk memastikan case-sensitivity Linux/Vercel aman
-                        $firstImg = !empty($product['images']) ? strtolower($product['images'][0]) : 'placeholder.jpg'; 
+                        $firstImg = !empty($product['images']) ? 'uploads/products/' . strtolower($product['images'][0]) : 'assets/images/placeholder.jpg'; 
                         
                         $safeProduct = [
                             'id' => $product['id'] ?? 0, 'name' => $product['name'] ?? 'Produk',
                             'price' => $product['price'] ?? '-', 'description' => $product['description'] ?? '',
-                            'images' => is_array($product['images']) ? array_map('strtolower', $product['images']) : [],
+                            'images' => is_array($product['images']) ? array_map(function($img) { return 'uploads/products/' . strtolower($img); }, $product['images']) : ['assets/images/placeholder.jpg'],
                             'specs' => is_array($product['specs']) ? $product['specs'] : [],
                             'includes' => is_array($product['includes']) ? $product['includes'] : [],
                             'is_best_seller' => $product['is_best_seller'] ?? false
@@ -250,9 +250,9 @@
                         <div class="product-img">
                             @if(!empty($product['is_best_seller'])) <span class="badge-best"><i class="fas fa-crown"></i> BEST SELLER</span> @endif
                             
-                            <!-- PERBAIKAN UTAMA: Path gambar sekarang FLAT (tanpa folder uploads/products/) -->
-                            <!-- onerror fallback juga menggunakan path flat -->
-                            <img src="{{ asset($firstImg) }}" alt="{{ $product['name'] ?? 'Produk' }}" loading="lazy" onerror="this.onerror=null; this.src='{{ asset('placeholder.jpg') }}';">
+                            <!-- PERBAIKAN UTAMA: Path gambar sekarang NORMAL (dengan folder uploads/products/) -->
+                            <!-- onerror fallback juga menggunakan path normal -->
+                            <img src="{{ asset($firstImg) }}" alt="{{ $product['name'] ?? 'Produk' }}" loading="lazy" onerror="this.onerror=null; this.src='{{ asset('assets/images/placeholder.jpg') }}';">
                             
                             <span class="badge-price">{{ $product['price'] ?? '-' }}</span>
                         </div>
@@ -387,10 +387,10 @@
         function openModal(product) {
             if (!product || typeof product !== 'object') return;
             
-            // Path gambar modal juga diubah menjadi lowercase dan FLAT STRUCTURE (tanpa folder)
+            // Path gambar modal juga diubah menjadi lowercase dan STRUKTUR NORMAL (dengan folder)
             productImages = (Array.isArray(product.images) && product.images.length) 
                 ? product.images.map(img => `{{ asset('') }}${img}`) 
-                : ['{{ asset('placeholder.jpg') }}'];
+                : ['{{ asset('assets/images/placeholder.jpg') }}'];
                 
             currentSlide = 0; updateSlider();
             
