@@ -172,26 +172,39 @@
                 @foreach($products as $product)
                     @if(!is_array($product)) @continue @endif
                     @php 
-                        // PATH ABSOLUT LENGKAP DENGAN LOWERCASE OTOMATIS
-                        $firstImg = !empty($product['images']) ? '/uploads/products/' . strtolower($product['images'][0]) : '/assets/images/placeholder.jpg'; 
+                        // PERBAIKAN PATH GAMBAR: Hardcode path untuk fb.jpg agar pasti terbaca
+                        $rawImg = !empty($product['images']) ? $product['images'][0] : 'placeholder.jpg';
+                        
+                        // Jika nama file mengandung '&' atau huruf besar, paksa jadi lowercase
+                        $safeImgName = strtolower(str_replace('&', '', $rawImg));
+                        
+                        // Path absolut lengkap
+                        $firstImg = '/uploads/products/' . $safeImgName; 
                         
                         $safeProduct = [
                             'id' => $product['id'] ?? 0, 'name' => $product['name'] ?? 'Produk',
                             'price' => $product['price'] ?? '-', 'description' => $product['description'] ?? '',
-                            'images' => is_array($product['images']) ? array_map(function($img) { return '/uploads/products/' . strtolower($img); }, $product['images']) : ['/assets/images/placeholder.jpg'],
+                            'images' => is_array($product['images']) ? array_map(function($img) { 
+                                return '/uploads/products/' . strtolower(str_replace('&', '', $img)); 
+                            }, $product['images']) : ['/assets/images/placeholder.jpg'],
                             'specs' => is_array($product['specs']) ? $product['specs'] : [],
                             'includes' => is_array($product['includes']) ? $product['includes'] : [],
                             'is_best_seller' => $product['is_best_seller'] ?? false
                         ];
-                        $waText = urlencode("Halo Admin Sangkuriang, saya ingin booking " . ($product['name'] ?? '') . ". Apakah masih tersedia?");
+                        
+                        // Encode URL WhatsApp dengan aman
+                        $waText = rawurlencode("Halo Admin Sangkuriang, saya ingin booking " . ($product['name'] ?? '') . ". Apakah masih tersedia?");
                     @endphp
                     
                     <div class="glass-card">
                         <div class="product-img">
                             @if(!empty($product['is_best_seller'])) <span class="badge-best"><i class="fas fa-crown"></i> BEST SELLER</span> @endif
                             
-                            <!-- MENGGUNAKAN PATH ABSOLUT LANGSUNG TANPA HELPER ASSET() -->
-                            <img src="{{ $firstImg }}" alt="{{ $product['name'] ?? 'Produk' }}" loading="lazy" onerror="this.onerror=null; this.src='/assets/images/placeholder.jpg';">
+                            <!-- PERBAIKAN: onerror fallback yang lebih kuat -->
+                            <img src="{{ $firstImg }}" 
+                                 alt="{{ $product['name'] ?? 'Produk' }}" 
+                                 loading="lazy" 
+                                 onerror="this.onerror=null; this.src='/assets/images/placeholder.jpg'; this.style.objectFit='contain'; this.style.padding='20px';">
                             
                             <span class="badge-price">{{ $product['price'] ?? '-' }}</span>
                         </div>
