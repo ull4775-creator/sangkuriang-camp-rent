@@ -4,40 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Sangkuriang - Sewa Tenda Premium</title>
-    <!-- Favicon dari folder assets/images -->
-    <link rel="icon" type="image/png" href="{{ asset('assets/images/logo.png') }}">
+    <!-- PATH ABSOLUT UNTUK FAVICON -->
+    <link rel="icon" type="image/png" href="/assets/images/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="/css/style.css">
 
     <style>
         :root { --primary: #4CAF50; --gold: #FFD54F; --dark: #0a0a0a; --glass-bg: rgba(20, 20, 20, 0.75); }
         * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
         body { font-family: 'Poppins', sans-serif; color: #fff; background: var(--dark); overflow-x: hidden; }
         
-        /* BACKGROUND VIDEO DENGAN FALLBACK IMAGE GANDA */
-        .fixed-video-bg {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            z-index: -9999; pointer-events: none; overflow: hidden;
-            background-color: #050505;
-            background-image: url('{{ asset("assets/images/logo.png") }}');
-            background-size: cover;
-            background-position: center;
-        }
-        .fixed-video-bg img {
-            width: 100%; height: 100%; object-fit: cover; 
-            position: absolute; top: 0; left: 0; z-index: -2;
-            opacity: 0.5;
-        }
-        .fixed-video-bg video {
-            width: 100%; height: 100%; object-fit: cover; 
-            position: relative; z-index: -1;
-        }
-        .global-overlay {
-            position: fixed; inset: 0;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.9));
-            z-index: -9998; pointer-events: none;
-        }
+        .fixed-video-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -9999; pointer-events: none; overflow: hidden; background-color: #050505; background-image: url('/assets/images/logo.png'); background-size: cover; background-position: center; }
+        .fixed-video-bg img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: -2; opacity: 0.5; }
+        .fixed-video-bg video { width: 100%; height: 100%; object-fit: cover; position: relative; z-index: -1; }
+        .global-overlay { position: fixed; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.9)); z-index: -9998; pointer-events: none; }
         
         .navbar { position: fixed; top: 0; width: 100%; z-index: 1000; padding: 20px 0; transition: 0.4s; background: transparent; }
         .navbar.scrolled { background: rgba(10,10,10,0.95); backdrop-filter: blur(20px); padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
@@ -64,19 +45,9 @@
         .section-label { color: var(--primary); letter-spacing: 3px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; display: block; margin-bottom: 12px; }
         .section-title { font-size: 2.5rem; margin-bottom: 16px; }
         
-        /* 3D GLASS CARD - RESPONSIVE FIX */
         .grid-catalog { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 28px; }
-        .glass-card { 
-            background: var(--glass-bg); border: 1px solid rgba(255,255,255,0.1); 
-            border-radius: 20px; overflow: hidden; transition: 0.4s; 
-            backdrop-filter: blur(15px); 
-            transform-style: preserve-3d; perspective: 1000px;
-        }
-        .glass-card:hover { 
-            transform: translateY(-8px) rotateX(2deg); 
-            border-color: rgba(76,175,80,0.4); 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4); 
-        }
+        .glass-card { background: var(--glass-bg); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; transition: 0.4s; backdrop-filter: blur(15px); transform-style: preserve-3d; perspective: 1000px; }
+        .glass-card:hover { transform: translateY(-8px) rotateX(2deg); border-color: rgba(76,175,80,0.4); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
         
         .product-img { height: 220px; position: relative; overflow: hidden; background: #111; }
         .product-img img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
@@ -91,7 +62,6 @@
         .btn-detail { flex: 1; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: white; border-radius: 12px; cursor: pointer; font-size: 0.85rem; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 6px; }
         .btn-wa { background: #25D366; color: white; padding: 12px 18px; border-radius: 12px; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.85rem; font-weight: 600; transition: 0.3s; }
 
-        /* FEATURES & CONTACT GRID */
         .grid-features, .social-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-top: 30px; }
         .feature-card, .contact-card { padding: 30px; text-align: center; }
         .feature-icon { width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary), var(--dark)); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 1.5rem; }
@@ -101,38 +71,14 @@
         .contact-link.phone { border: 1px solid var(--primary); color: var(--primary); }
         .contact-link.ig { border: 1px solid #E1306C; color: #E1306C; }
 
-        /* 3D MAP CONTAINER */
-        .map-wrapper {
-            position: relative; border-radius: 24px; overflow: hidden;
-            height: 400px; border: 2px solid rgba(76, 175, 80, 0.3);
-            box-shadow: 0 25px 60px rgba(0,0,0,0.6);
-            transition: all 0.4s; cursor: pointer; display: block; margin-bottom: 32px;
-            transform: perspective(1000px) rotateX(2deg);
-            background: #111;
-        }
-        .map-wrapper:hover { 
-            border-color: var(--primary); 
-            transform: perspective(1000px) rotateX(0deg) scale(1.02);
-        }
+        .map-wrapper { position: relative; border-radius: 24px; overflow: hidden; height: 400px; border: 2px solid rgba(76, 175, 80, 0.3); box-shadow: 0 25px 60px rgba(0,0,0,0.6); transition: all 0.4s; cursor: pointer; display: block; margin-bottom: 32px; transform: perspective(1000px) rotateX(2deg); background: #111; }
+        .map-wrapper:hover { border-color: var(--primary); transform: perspective(1000px) rotateX(0deg) scale(1.02); }
         .map-wrapper iframe { width:100%; height:100%; border:0; filter: invert(90%) hue-rotate(180deg) brightness(0.8) contrast(1.2); pointer-events: none; }
-        
-        .map-click-overlay {
-            position: absolute; inset: 0; background: rgba(0,0,0,0.4);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 10; transition: 0.4s; backdrop-filter: blur(2px);
-        }
+        .map-click-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.4); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; transition: 0.4s; backdrop-filter: blur(2px); }
         .map-wrapper:hover .map-click-overlay { background: rgba(0,0,0,0.1); }
-        
-        .map-btn-float {
-            background: rgba(76, 175, 80, 0.95); color: white; padding: 16px 32px;
-            border-radius: 50px; font-weight: 700; backdrop-filter: blur(5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.4); animation: pulseMap 2.5s infinite;
-            display: flex; align-items: center; gap: 10px; font-size: 1.1rem;
-            text-decoration: none; border: 2px solid rgba(255,255,255,0.2);
-        }
+        .map-btn-float { background: rgba(76, 175, 80, 0.95); color: white; padding: 16px 32px; border-radius: 50px; font-weight: 700; backdrop-filter: blur(5px); box-shadow: 0 8px 25px rgba(0,0,0,0.4); animation: pulseMap 2.5s infinite; display: flex; align-items: center; gap: 10px; font-size: 1.1rem; text-decoration: none; border: 2px solid rgba(255,255,255,0.2); }
         @keyframes pulseMap { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.6); } 70% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(76, 175, 80, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); } }
         
-        /* MODAL DETAIL SPESIFIK */
         .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 2000; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(10px); }
         .modal-overlay.active { display: flex; animation: fadeIn 0.3s ease; }
         .modal-content { background: #1a1a1a; border-radius: 24px; max-width: 600px; width: 100%; position: relative; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; max-height: 90vh; overflow-y: auto; }
@@ -153,7 +99,6 @@
         .include-tag { background: rgba(76,175,80,0.1); border: 1px solid rgba(76,175,80,0.3); color: #81C784; padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; }
         .modal-book-btn { width: 100%; padding: 16px; background: #25D366; color: white; border: none; border-radius: 16px; font-size: 1.05rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 20px; }
         
-        /* FOOTER */
         footer { background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); padding: 40px 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); }
         .footer-logo { color: var(--primary); margin-bottom: 12px; font-size:1.3rem; font-weight:700; display:flex; align-items:center; justify-content:center; gap:8px; }
         .footer-copy { color: #666; font-size: 0.85rem; transition: 0.3s; display: inline-block; margin-top: 8px; text-decoration: none; }
@@ -161,22 +106,16 @@
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         
-        /* RESPONSIVE MOBILE FIX TOTAL */
         @media(max-width: 768px) {
             .nav-menu { position: fixed; top: 0; right: -100%; width: 80%; height: 100vh; background: #050505; flex-direction: column; padding: 100px 32px; transition: 0.4s; z-index: 999; }
             .nav-menu.active { right: 0; }
             .hamburger { display: flex; }
             .btn-nav { display: none; }
-            
-            /* MEMAKSA GRID MENJADI 1 KOLOM DI HP */
             .grid-catalog, .grid-features, .social-grid { grid-template-columns: 1fr !important; gap: 20px; }
-            
             .modal-specs { grid-template-columns: 1fr; }
             .map-wrapper { height: 280px; transform: none; border-radius: 16px; }
             .map-wrapper:hover { transform: scale(1.02); }
             .map-btn-float { font-size: 0.9rem; padding: 12px 24px; }
-            
-            /* Menyesuaikan ukuran font judul di HP */
             .section-title { font-size: 2rem; }
             .hero-desc { font-size: 1rem; }
         }
@@ -184,13 +123,10 @@
 </head>
 <body>
 
-    <!-- VIDEO BACKGROUND DENGAN FALLBACK IMAGE GANDA (CSS + HTML) -->
     <div class="fixed-video-bg">
-        <!-- Fallback Image HTML (Path normal: assets/images/) -->
-        <img src="{{ asset('assets/images/logo.png') }}" alt="Background" style="width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0; z-index:-2;">
-        <!-- Video Background (Path normal: uploads/products/) -->
-        <video id="bgVideo" autoplay muted loop playsinline preload="auto" poster="{{ asset('assets/images/logo.png') }}" style="position:relative; z-index:-1;">
-            <source src="{{ asset('uploads/products/bg.mp4') }}" type="video/mp4">
+        <img src="/assets/images/logo.png" alt="Background" style="width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0; z-index:-2;">
+        <video id="bgVideo" autoplay muted loop playsinline preload="auto" poster="/assets/images/logo.png" style="position:relative; z-index:-1;">
+            <source src="/uploads/products/bg.mp4" type="video/mp4">
         </video>
     </div>
     <div class="global-overlay"></div>
@@ -231,14 +167,13 @@
                 @foreach($products as $product)
                     @if(!is_array($product)) @continue @endif
                     @php 
-                        // PERBAIKAN PATH GAMBAR PRODUK: Kembali ke struktur folder normal (uploads/products/)
-                        // Menggunakan strtolower() untuk memastikan case-sensitivity Linux/Vercel aman
-                        $firstImg = !empty($product['images']) ? 'uploads/products/' . strtolower($product['images'][0]) : 'assets/images/placeholder.jpg'; 
+                        // PATH ABSOLUT LENGKAP DENGAN LOWERCASE OTOMATIS
+                        $firstImg = !empty($product['images']) ? '/uploads/products/' . strtolower($product['images'][0]) : '/assets/images/placeholder.jpg'; 
                         
                         $safeProduct = [
                             'id' => $product['id'] ?? 0, 'name' => $product['name'] ?? 'Produk',
                             'price' => $product['price'] ?? '-', 'description' => $product['description'] ?? '',
-                            'images' => is_array($product['images']) ? array_map(function($img) { return 'uploads/products/' . strtolower($img); }, $product['images']) : ['assets/images/placeholder.jpg'],
+                            'images' => is_array($product['images']) ? array_map(function($img) { return '/uploads/products/' . strtolower($img); }, $product['images']) : ['/assets/images/placeholder.jpg'],
                             'specs' => is_array($product['specs']) ? $product['specs'] : [],
                             'includes' => is_array($product['includes']) ? $product['includes'] : [],
                             'is_best_seller' => $product['is_best_seller'] ?? false
@@ -250,9 +185,8 @@
                         <div class="product-img">
                             @if(!empty($product['is_best_seller'])) <span class="badge-best"><i class="fas fa-crown"></i> BEST SELLER</span> @endif
                             
-                            <!-- PERBAIKAN UTAMA: Path gambar sekarang NORMAL (dengan folder uploads/products/) -->
-                            <!-- onerror fallback juga menggunakan path normal -->
-                            <img src="{{ asset($firstImg) }}" alt="{{ $product['name'] ?? 'Produk' }}" loading="lazy" onerror="this.onerror=null; this.src='{{ asset('assets/images/placeholder.jpg') }}';">
+                            <!-- MENGGUNAKAN PATH ABSOLUT LANGSUNG TANPA HELPER ASSET() -->
+                            <img src="{{ $firstImg }}" alt="{{ $product['name'] ?? 'Produk' }}" loading="lazy" onerror="this.onerror=null; this.src='/assets/images/placeholder.jpg';">
                             
                             <span class="badge-price">{{ $product['price'] ?? '-' }}</span>
                         </div>
@@ -270,7 +204,6 @@
         </div>
     </section>
 
-    <!-- KEUNGGULAN SECTION -->
     <section class="section" id="keunggulan">
         <div class="container">
             <div class="section-header">
@@ -302,7 +235,6 @@
         </div>
     </section>
 
-    <!-- LOKASI & KONTAK SECTION -->
     <section class="section" id="kontak">
         <div class="container">
             <div class="section-header">
@@ -338,7 +270,6 @@
         </div>
     </section>
 
-    <!-- FOOTER -->
     <footer>
         <div class="container">
             <div class="footer-logo"><i class="fas fa-mountain"></i> Sangkuriang</div>
@@ -348,7 +279,6 @@
         </div>
     </footer>
 
-    <!-- MODAL DETAIL -->
     <div class="modal-overlay" id="productModal">
         <div class="modal-content" onclick="event.stopPropagation()">
             <button onclick="closeModal()" class="modal-close"><i class="fas fa-times"></i></button>
@@ -386,12 +316,8 @@
         let currentSlide = 0, productImages = [];
         function openModal(product) {
             if (!product || typeof product !== 'object') return;
-            
-            // Path gambar modal juga diubah menjadi lowercase dan STRUKTUR NORMAL (dengan folder)
-            productImages = (Array.isArray(product.images) && product.images.length) 
-                ? product.images.map(img => `{{ asset('') }}${img}`) 
-                : ['{{ asset('assets/images/placeholder.jpg') }}'];
-                
+            // Path modal juga menggunakan path absolut lengkap
+            productImages = (Array.isArray(product.images) && product.images.length) ? product.images : ['/assets/images/placeholder.jpg'];
             currentSlide = 0; updateSlider();
             
             document.getElementById('modalName').textContent = product.name || 'Produk';
@@ -423,7 +349,6 @@
             if(e.key==='ArrowRight') changeSlide(1);
         });
 
-        // Video Auto-Play Fix
         window.addEventListener('load', function() {
             var video = document.getElementById('bgVideo');
             if(video) {
@@ -435,4 +360,4 @@
         });
     </script>
 </body>
-</html>
+</html>     
