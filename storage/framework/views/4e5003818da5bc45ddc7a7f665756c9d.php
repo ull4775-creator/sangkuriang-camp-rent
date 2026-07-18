@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Sangkuriang - Sewa Tenda Premium</title>
-    <link rel="icon" type="image/png" href="<?php echo e(asset('assets/images/logo.png')); ?>">
+    <!-- Favicon langsung dari root public -->
+    <link rel="icon" type="image/png" href="<?php echo e(asset('logo.png')); ?>">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="<?php echo e(asset('css/style.css')); ?>">
@@ -19,7 +20,7 @@
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: -9999; pointer-events: none; overflow: hidden;
             background-color: #050505;
-            background-image: url('<?php echo e(asset("assets/images/logo.png")); ?>');
+            background-image: url('<?php echo e(asset("logo.png")); ?>');
             background-size: cover;
             background-position: center;
         }
@@ -185,11 +186,11 @@
 
     <!-- VIDEO BACKGROUND DENGAN FALLBACK IMAGE GANDA (CSS + HTML) -->
     <div class="fixed-video-bg">
-        <!-- Fallback Image HTML -->
-        <img src="<?php echo e(asset('assets/images/logo.png')); ?>" alt="Background" style="width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0; z-index:-2;">
-        <!-- Video Background -->
-        <video id="bgVideo" autoplay muted loop playsinline preload="auto" poster="<?php echo e(asset('assets/images/logo.png')); ?>" style="position:relative; z-index:-1;">
-            <source src="<?php echo e(asset('uploads/products/bg.mp4')); ?>" type="video/mp4">
+        <!-- Fallback Image HTML (Path flat: langsung di root public) -->
+        <img src="<?php echo e(asset('logo.png')); ?>" alt="Background" style="width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0; z-index:-2;">
+        <!-- Video Background (Path flat: langsung di root public) -->
+        <video id="bgVideo" autoplay muted loop playsinline preload="auto" poster="<?php echo e(asset('logo.png')); ?>" style="position:relative; z-index:-1;">
+            <source src="<?php echo e(asset('bg.mp4')); ?>" type="video/mp4">
         </video>
     </div>
     <div class="global-overlay"></div>
@@ -230,8 +231,10 @@
                 <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <?php if(!is_array($product)): ?> <?php continue; ?> <?php endif; ?>
                     <?php 
-                        // PERBAIKAN PATH GAMBAR PRODUK: Mengubah nama file menjadi lowercase otomatis
+                        // PERBAIKAN PATH GAMBAR PRODUK: Langsung ambil dari root public (flat structure)
+                        // Menggunakan strtolower() untuk memastikan case-sensitivity Linux/Vercel aman
                         $firstImg = !empty($product['images']) ? strtolower($product['images'][0]) : 'placeholder.jpg'; 
+                        
                         $safeProduct = [
                             'id' => $product['id'] ?? 0, 'name' => $product['name'] ?? 'Produk',
                             'price' => $product['price'] ?? '-', 'description' => $product['description'] ?? '',
@@ -246,8 +249,11 @@
                     <div class="glass-card">
                         <div class="product-img">
                             <?php if(!empty($product['is_best_seller'])): ?> <span class="badge-best"><i class="fas fa-crown"></i> BEST SELLER</span> <?php endif; ?>
-                            <!-- onerror akan menampilkan placeholder jika gambar utama tidak ditemukan -->
-                            <img src="<?php echo e(asset('uploads/products/' . $firstImg)); ?>" alt="<?php echo e($product['name'] ?? 'Produk'); ?>" loading="lazy" onerror="this.onerror=null; this.src='<?php echo e(asset('assets/images/placeholder.jpg')); ?>';">
+                            
+                            <!-- PERBAIKAN UTAMA: Path gambar sekarang FLAT (tanpa folder uploads/products/) -->
+                            <!-- onerror fallback juga menggunakan path flat -->
+                            <img src="<?php echo e(asset($firstImg)); ?>" alt="<?php echo e($product['name'] ?? 'Produk'); ?>" loading="lazy" onerror="this.onerror=null; this.src='<?php echo e(asset('placeholder.jpg')); ?>';">
+                            
                             <span class="badge-price"><?php echo e($product['price'] ?? '-'); ?></span>
                         </div>
                         <div class="product-body">
@@ -380,8 +386,12 @@
         let currentSlide = 0, productImages = [];
         function openModal(product) {
             if (!product || typeof product !== 'object') return;
-            // Path gambar modal juga diubah menjadi lowercase
-            productImages = (Array.isArray(product.images) && product.images.length) ? product.images.map(img => `<?php echo e(asset('uploads/products/')); ?>/${img}`) : ['<?php echo e(asset('assets/images/placeholder.jpg')); ?>'];
+            
+            // Path gambar modal juga diubah menjadi lowercase dan FLAT STRUCTURE (tanpa folder)
+            productImages = (Array.isArray(product.images) && product.images.length) 
+                ? product.images.map(img => `<?php echo e(asset('')); ?>${img}`) 
+                : ['<?php echo e(asset('placeholder.jpg')); ?>'];
+                
             currentSlide = 0; updateSlider();
             
             document.getElementById('modalName').textContent = product.name || 'Produk';

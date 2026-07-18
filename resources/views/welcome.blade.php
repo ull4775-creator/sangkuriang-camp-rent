@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Sangkuriang - Sewa Tenda Premium</title>
-    <!-- Fallback icon jika logo gagal load -->
+    <!-- Favicon langsung dari root public -->
     <link rel="icon" type="image/png" href="{{ asset('logo.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -186,9 +186,9 @@
 
     <!-- VIDEO BACKGROUND DENGAN FALLBACK IMAGE GANDA (CSS + HTML) -->
     <div class="fixed-video-bg">
-        <!-- Fallback Image HTML -->
+        <!-- Fallback Image HTML (Path flat: langsung di root public) -->
         <img src="{{ asset('logo.png') }}" alt="Background" style="width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0; z-index:-2;">
-        <!-- Video Background -->
+        <!-- Video Background (Path flat: langsung di root public) -->
         <video id="bgVideo" autoplay muted loop playsinline preload="auto" poster="{{ asset('logo.png') }}" style="position:relative; z-index:-1;">
             <source src="{{ asset('bg.mp4') }}" type="video/mp4">
         </video>
@@ -232,7 +232,9 @@
                     @if(!is_array($product)) @continue @endif
                     @php 
                         // PERBAIKAN PATH GAMBAR PRODUK: Langsung ambil dari root public (flat structure)
+                        // Menggunakan strtolower() untuk memastikan case-sensitivity Linux/Vercel aman
                         $firstImg = !empty($product['images']) ? strtolower($product['images'][0]) : 'placeholder.jpg'; 
+                        
                         $safeProduct = [
                             'id' => $product['id'] ?? 0, 'name' => $product['name'] ?? 'Produk',
                             'price' => $product['price'] ?? '-', 'description' => $product['description'] ?? '',
@@ -247,8 +249,11 @@
                     <div class="glass-card">
                         <div class="product-img">
                             @if(!empty($product['is_best_seller'])) <span class="badge-best"><i class="fas fa-crown"></i> BEST SELLER</span> @endif
-                            <!-- onerror akan menampilkan placeholder jika gambar utama tidak ditemukan -->
+                            
+                            <!-- PERBAIKAN UTAMA: Path gambar sekarang FLAT (tanpa folder uploads/products/) -->
+                            <!-- onerror fallback juga menggunakan path flat -->
                             <img src="{{ asset($firstImg) }}" alt="{{ $product['name'] ?? 'Produk' }}" loading="lazy" onerror="this.onerror=null; this.src='{{ asset('placeholder.jpg') }}';">
+                            
                             <span class="badge-price">{{ $product['price'] ?? '-' }}</span>
                         </div>
                         <div class="product-body">
@@ -381,8 +386,12 @@
         let currentSlide = 0, productImages = [];
         function openModal(product) {
             if (!product || typeof product !== 'object') return;
-            // Path gambar modal juga diubah menjadi lowercase dan flat structure
-            productImages = (Array.isArray(product.images) && product.images.length) ? product.images.map(img => `{{ asset('') }}${img}`) : ['{{ asset('placeholder.jpg') }}'];
+            
+            // Path gambar modal juga diubah menjadi lowercase dan FLAT STRUCTURE (tanpa folder)
+            productImages = (Array.isArray(product.images) && product.images.length) 
+                ? product.images.map(img => `{{ asset('') }}${img}`) 
+                : ['{{ asset('placeholder.jpg') }}'];
+                
             currentSlide = 0; updateSlider();
             
             document.getElementById('modalName').textContent = product.name || 'Produk';
